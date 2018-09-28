@@ -1,0 +1,74 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[landscape,left=0.4in,right=0.4in,top=0.7in,bottom=0.4in]{geometry}
+\usepackage{multicol}
+\usepackage{fancyhdr}
+\usepackage{amsbsy, amssymb, amsmath}
+\usepackage{listings}
+\usepackage{framed}
+\usepackage{tocloft}
+\usepackage{titletoc}
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+\pagestyle{fancy}
+\fancyhead[L]{MIT ACM 2018-2019}
+\fancyhead[R]{\thepage/\pageref{LastPage}}
+\fancyfoot[C]{}
+
+\lstdefinestyle{common}{
+    belowcaptionskip=1\baselineskip,
+    breaklines=true,
+    breakatwhitespace=true,
+    xleftmargin=\parindent,
+    showstringspaces=false,
+    basicstyle=\fontsize{5.5}{6}\ttfamily,
+}
+
+\lstdefinestyle{cpp}{
+    style=common,
+    language=C++,
+    keywordstyle=\bfseries\color{green!40!black},
+    commentstyle=\itshape\color{red!80!black},
+    identifierstyle=\color{blue},
+    stringstyle=\color{purple!40!black},
+}
+\lstdefinestyle{java}{
+    style=common,
+    language=Java,
+    keywordstyle=\bfseries\color{green!40!black},
+    commentstyle=\itshape\color{purple!40!black},
+    identifierstyle=\color{blue},
+    stringstyle=\color{orange},
+}
+\lstdefinestyle{py}{
+    style=common,
+    language=Python,
+    keywordstyle=\bfseries\color{green!40!black},
+    commentstyle=\itshape\color{purple!40!black},
+    identifierstyle=\color{blue},
+    stringstyle=\color{orange},
+}
+\lstdefinestyle{txt}{
+    style=common,
+}
+
+\newcommand{\inputfile}[2]{
+\subsection{#1}
+Hash: \texttt{\input{|"contents/hash.sh < contents/#1"}}
+\lstinputlisting[style=#2]{contents/#1}
+}
+
+\begin{document}
+\begin{multicols*}{3}
+    \tableofcontents
+
+    \clearpage
+
+    \section{Non-code things}
+    \inputfile{hash.sh}{txt}
+    \inputfile{Makefile}{txt}
+
+\end{multicols*}
+
+\end{document}
