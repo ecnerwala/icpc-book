@@ -3,6 +3,7 @@
 \usepackage[landscape,left=0.4in,right=0.4in,top=0.7in,bottom=0.4in]{geometry}
 \usepackage{multicol}
 \usepackage{fancyhdr}
+\usepackage{lastpage}
 \usepackage{amsbsy, amssymb, amsmath}
 \usepackage{listings}
 \usepackage{framed}
@@ -20,9 +21,8 @@
     belowcaptionskip=1\baselineskip,
     breaklines=true,
     breakatwhitespace=true,
-    xleftmargin=\parindent,
     showstringspaces=false,
-    basicstyle=\fontsize{5.5}{6}\ttfamily,
+    basicstyle=\scriptsize\ttfamily,
 }
 
 \lstdefinestyle{cpp}{
@@ -54,9 +54,8 @@
 }
 
 \newcommand{\inputfile}[2]{
-\subsection{#1}
-Hash: \texttt{\input{|"contents/hash.sh < contents/#1"}}
-\lstinputlisting[style=#2]{contents/#1}
+    Hash: \texttt{\input{|"contents/hash.sh < contents/#1"}}
+    \lstinputlisting[style=#2]{contents/#1}
 }
 
 \begin{document}
@@ -66,9 +65,10 @@ Hash: \texttt{\input{|"contents/hash.sh < contents/#1"}}
     \clearpage
 
     \section{Non-code things}
+    \subsection{Hash}
     \inputfile{hash.sh}{txt}
+    \subsection{Makefile}
     \inputfile{Makefile}{txt}
 
 \end{multicols*}
-
 \end{document}
