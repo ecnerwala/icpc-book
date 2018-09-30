@@ -1,0 +1,4 @@
+set tabsize 2
+set mouse
+set const
+set autoindent
