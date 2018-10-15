@@ -21,8 +21,10 @@
     belowcaptionskip=1\baselineskip,
     breaklines=true,
     breakatwhitespace=true,
+    postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space},
     showstringspaces=false,
     basicstyle=\scriptsize\ttfamily,
+    tabsize=2,
 }
 
 \lstdefinestyle{cpp}{
@@ -73,6 +75,15 @@
     \inputfile{vimrc}{txt}
     \subsection{nanorc}
     \inputfile{nanorc}{txt}
+
+    \section{Geometry}
+    \subsection{Point}
+    \inputfile{kactl-geometry-point.h}{cpp}
+
+    \section{Java/Python}
+    \subsection{Java IO}
+    \subsection{Java BigInteger}
+    \subsection{Python IO}
 
 \end{multicols*}
 \end{document}
