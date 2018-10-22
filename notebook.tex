@@ -27,29 +27,32 @@
     tabsize=2,
 }
 
-\lstdefinestyle{cpp}{
+\definecolor{eclipsegreen}{HTML}{008000}
+\definecolor{eclipseblue}{HTML}{0000FF}
+\definecolor{eclipsegray}{HTML}{808080}
+\definecolor{eclipseoperator}{HTML}{8000FF}
+\lstdefinestyle{commoncode}{
     style=common,
+    keywordstyle=\bfseries\color{eclipseblue},
+    commentstyle=\itshape\color{eclipsegreen},
+    %identifierstyle=\color{blue},
+    stringstyle=\color{eclipsegray},
+}
+\lstdefinestyle{cpp}{
+    style=commoncode,
     language=C++,
-    keywordstyle=\bfseries\color{green!40!black},
-    commentstyle=\itshape\color{red!80!black},
-    identifierstyle=\color{blue},
-    stringstyle=\color{purple!40!black},
+    classoffset=1, % starting new class
+    %otherkeywords={>,<,.,;,-,!,=,~},
+    morekeywords={>,<,.,;,-,!,=,~},
+    keywordstyle=\color{eclipseoperator},
 }
 \lstdefinestyle{java}{
-    style=common,
+    style=commoncode,
     language=Java,
-    keywordstyle=\bfseries\color{green!40!black},
-    commentstyle=\itshape\color{purple!40!black},
-    identifierstyle=\color{blue},
-    stringstyle=\color{orange},
 }
 \lstdefinestyle{py}{
-    style=common,
+    style=commoncode,
     language=Python,
-    keywordstyle=\bfseries\color{green!40!black},
-    commentstyle=\itshape\color{purple!40!black},
-    identifierstyle=\color{blue},
-    stringstyle=\color{orange},
 }
 \lstdefinestyle{txt}{
     style=common,
