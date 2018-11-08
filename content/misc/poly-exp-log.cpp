@@ -1,3 +1,7 @@
+/**
+ * Author: 
+ * Description: polynomial exp/log
+ */
 const int mo=998244353,g=3;
  int qp(int a,int b){
    int ans=1;
