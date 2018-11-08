@@ -1,8 +1,7 @@
-///////////////////////////
-//
-// SA + LCP
-//
-///////////////////////////
+/**
+ * Author: 
+ * Description: SA + LCP
+ */
 int wa[maxn],wb[maxn],wv[maxn],ws[maxn];
 int cmp(int *r,int a,int b,int l) {
   return r[a]==r[b]&&r[a+l]==r[b+l];

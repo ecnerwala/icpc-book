@@ -1,8 +1,7 @@
-///////////////////////////
-//
-// negative cycle
-//
-///////////////////////////
+/**
+ * Author: 
+ * Description: negative cycle
+ */
 double b[N][N];
 
 double dis[N];
