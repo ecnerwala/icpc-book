@@ -4,7 +4,7 @@
  * License: CC0
  * Source:
  * Description:\\
-\begin{minipage}{75mm}
+\begin{minipage}{70mm}
  Returns a vector with the vertices of a polygon with everything to the left of the line going from s to e cut away.
 \end{minipage}
 \begin{minipage}{15mm}

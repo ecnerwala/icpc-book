@@ -4,7 +4,7 @@
  * License: CC0
  * Source:
  * Description:\\
-\begin{minipage}{75mm}
+\begin{minipage}{70mm}
 Returns the shortest distance between point p and the line segment from point s to e.
 \end{minipage}
 \begin{minipage}{15mm}
