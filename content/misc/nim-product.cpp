@@ -5,7 +5,7 @@
 ll f[64][64]; // initialize to -1
 ll nim(ll x, ll y);
 ll _nim(int x, int y) {
-  if (!x || !y)  return 1 << (x + y);
+  if (!x || !y)  return 1ll << (x + y);
   if (f[x][y] != -1)  return f[x][y];
   ll ret = 1, e = 1;
   for (int i = 0; (x >> i) || (y >> i); i++)
