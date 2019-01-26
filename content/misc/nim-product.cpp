@@ -3,6 +3,7 @@
  * Description: Nim Product.
  */
 ll f[64][64]; // initialize to -1
+ll nim(ll x, ll y);
 ll _nim(int x, int y) {
   if (!x || !y)  return 1 << (x + y);
   if (f[x][y] != -1)  return f[x][y];
