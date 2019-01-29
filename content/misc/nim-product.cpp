@@ -1,22 +1,21 @@
 /**
- * Author: 
+ * Author: Andrew He
  * Description: Nim Product.
  */
-int _nim(int x, int y) {
-  if (!x || !y)  return 1 << (x + y);
-  if (f[x][y] != -1)  return f[x][y];
-  int ret = 1, e = 1;
-  for (int i = 0; i <= 4; i++)
-    if ((x ^ y) & (1 << i))  e *= (1 << (1 << i));
-    else  if (x & (1 << i))  ret = nim(ret, 3 * (1 << (1 << i)) / 2);
-  f[x][y] = nim(ret, e);
-  return f[x][y];
+using ull = uint64_t;
+ull _nimProd2[64][64];
+ull nimProd2(int i, int j) {
+  if (_nimProd2[i][j]) return _nimProd2[i][j];
+  if ((i & j) == 0) return _nimProd2[i][j] = 1ull << (i|j);
+  int a = (i&j) & -(i&j);
+  return _nimProd2[i][j] = nimProd2(i ^ a, j) ^ nimProd2((i ^ a) | (a-1), (j ^ a) | (i & (a-1)));
 }
-int nim(int x, int y) {
-  int ret = 0;
-  for (int i = 0; i <= 20; i++)
-    if (x & (1 << i))
-      for (int j = 0; j <= 20; j++)
-        if (y & (1 << j))  ret ^= _nim(i, j);
-  return ret;
+ull nimProd(ull x, ull y) {
+  ull res = 0;
+  for (int i = 0; x >> i; i++)
+    if ((x >> i) & 1)
+      for (int j = 0; y >> j; j++)
+        if ((y >> j) & 1)
+          res ^= nimProd2(i, j);
+  return res;
 }
