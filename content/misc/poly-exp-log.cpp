@@ -20,14 +20,14 @@ void dft(int *a,int n,bool v){//0 <= a[i] < mo
   int j=0;
   rep(i,0,n){
     if(i>j)swap(a[i],a[j]);
-    for (int v=n>>1;(j^=v)<v;v>>=1);
+    for (int p=n>>1;(j^=p)<p;p>>=1);
   }
   for (int i=2;i<=n;i<<=1)
     for (int j=0,s=n/i;j<n;j+=i)
-      rep(v,0,i>>1){
-        int t=1ll*a[j+v+(i>>1)]*w[v][s*v]%mo;
-        a[j+v+(i>>1)]=(a[j+v]+mo-t)%mo;
-        a[j+v]=(a[j+v]+t)%mo;
+      rep(p,0,i>>1){
+        int t=1ll*a[j+p+(i>>1)]*w[v][s*p]%mo;
+        a[j+p+(i>>1)]=(a[j+p]+mo-t)%mo;
+        a[j+p]=(a[j+p]+t)%mo;
   } if(v){
      int y=qp(n,mo-2);
      rep(i,0,n)a[i]=1ll*a[i]*y%mo;
