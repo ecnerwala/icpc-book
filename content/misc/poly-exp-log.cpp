@@ -5,7 +5,7 @@
 
 // N and n should be powers of 2, N >= 2*n
 // Inputs should have size at least 2*n and should be 0-padded
-// Non-outputs will not be nodified
+// Non-outputs will not be modified
 
 #define per(i,a,b) for(int i = (b)-1; i >= (a); --i)
 
@@ -40,6 +40,22 @@ void init(int n){
   rep(i,1,n+1)w[0][i]=1ll*w[0][i-1]*ww%mo;
   rep(i,0,n+1)w[1][i]=w[0][n-i];
 }
+
+vector<int> conv(vector<int> a, vector<int> b) {
+  int s = sz(a) + sz(b) - 1;
+  if (s <= 0) return {};
+  int L = s > 1 ? 32 - __builtin_clz(s-1) : 0, n = 1 << L;
+  a.resize(n);
+  b.resize(n);
+  init(n);
+  dft(&a[0],n,0);
+  dft(&b[0],n,0);
+  rep(i,0,n)a[i]=1ll*a[i]*b[i]%mo;
+  dft(&a[0],n,1);
+  a.resize(s);
+  return a;
+}
+
 // a *= b
 void mul(int *a,int *b,int n){
   static int x[N];
