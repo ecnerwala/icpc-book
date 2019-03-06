@@ -15,11 +15,11 @@
 
 	\subsection{Burnside's lemma}
 		Given a group $G$ of symmetries and a set $X$, the number of elements of $X$ \emph{up to symmetry} equals
-		 \[ {\frac {1}{|G|}}\sum _{{g\in G}}|X^{g}|, \]
-		 where $X^{g}$ are the elements fixed by $g$ ($g.x = x$).
+		\[ {\frac {1}{|G|}}\sum _{{g\in G}}|X^{g}|, \]
+		where $X^{g}$ are the elements fixed by $g$ ($g.x = x$).
 
-		 If $f(n)$ counts "configurations" (of some sort) of length $n$, we can ignore rotational symmetry using $G = \mathbb Z_n$ to get
-		 \[ g(n) = \frac 1 n \sum_{k=0}^{n-1}{f(\text{gcd}(n, k))} = \frac 1 n \sum_{k|n}{f(k)\phi(n/k)}. \]
+		If $f(n)$ counts "configurations" (of some sort) of length $n$, we can ignore rotational symmetry using $G = \mathbb Z_n$ to get
+		\[ g(n) = \frac 1 n \sum_{k=0}^{n-1}{f(\text{gcd}(n, k))} = \frac 1 n \sum_{k|n}{f(k)\phi(n/k)}. \]
 
 \section{Partitions and subsets}
 	\subsection{Partition function}
@@ -39,6 +39,17 @@
 		\kactlimport{multinomial.h}
 
 \section{General purpose numbers}
+	\subsection{Bernoulli numbers}
+		EGF of Bernoulli numbers is $B(t)=\frac{t}{e^t-1}$ (FFT-able).
+		$B[0,\ldots] = [1, -\frac{1}{2}, \frac{1}{6}, 0, -\frac{1}{30}, 0, \frac{1}{42}, \ldots]$
+
+		Sums of powers:
+		\[ \sum_{i=1}^n n^m = \frac{1}{m+1} \sum_{k=0}^m \binom{m+1}{k} B_k (n+1)^{m+1-k} \]
+
+		Euler-Maclaurin formula for infinite sums:
+		\[ \sum_{i=m}^{\infty} f(i) = \int_m^\infty f(x) dx - \sum_{k=1}^\infty \frac{B_k}{k!}f^{(k-1)}(m) \]
+		\[ \approx \int_{m}^\infty f(x)dx + \frac{f(m)}{2} - \frac{f'(m)}{12} + \frac{f'''(m)}{720} \]
+
 	\subsection{Stirling numbers of the first kind}
 		Number of permutations on $n$ items with $k$ cycles.
 		\begin{align*}
