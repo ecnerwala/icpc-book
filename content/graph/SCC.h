@@ -8,10 +8,11 @@
  * we can reach $u$ from $v$ and vice versa.
  * Time: O(E + V)
  * Status: Bruteforce-tested for N <= 5
- * Usage: scc(graph, [\&](vi\& v) { ... }) visits all components
- * in reverse topological order. comp[i] holds the component
- * index of a node (a component only has edges to components with
- * lower index). ncomps will contain the number of components.
+ * Usage: scc(graph, [\&](vi\& v) { ... }) visits all
+ * components in reverse topological order. comp[i] holds the
+ * component index of a node (a component only has edges to
+ * components with lower index). ncomps will contain the
+ * number of components.
  */
 #pragma once
 

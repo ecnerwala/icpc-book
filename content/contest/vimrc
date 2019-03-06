@@ -1,5 +1,4 @@
-set nocp ai bs=2 cul hls ic is lbr ls=2 mouse=a nu ru sc scs smd so=3 sw=4 ts=4
+set nocp ai bs=2 hls ic is lbr ls=2 mouse=a nu ru sc scs smd so=3 sw=4 ts=4
 filetype plugin indent on
-syntax on
-
+syn on
 map gA m'ggVG"+y''
