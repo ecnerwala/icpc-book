@@ -2,8 +2,8 @@
  * Author: Andrew He
  * Description: polynomial exp/log
  * Source: http://neerc.ifmo.ru/trains/toulouse/2017/fft2.pdf
-   Papers about accuracy: http://www.daemonology.net/papers/fft.pdf, http://www.cs.berkeley.edu/~fateman/papers/fftvsothers.pdf
-   For integers rounding works if $(|a| + |b|)\max(a, b) < \mathtt{\sim} 10^9$, or in theory maybe $10^6$.
+ * Papers about accuracy: http://www.daemonology.net/papers/fft.pdf, http://www.cs.berkeley.edu/~fateman/papers/fftvsothers.pdf
+ * For integers rounding works if $(|a| + |b|)\max(a, b) < \mathtt{\sim} 10^9$, or in theory maybe $10^6$.
  */
 
 namespace fft {
@@ -173,3 +173,79 @@ vi multiply_mod(const vi& a, const vi& b, int m) {
 #endif
 
 } // namespace fft
+
+using poly = fft::vn;
+using fft::mutiply;
+using fft::inverse;
+poly& operator+=(poly& a, const poly& b) {
+	if (sz(a) < sz(b)) a.resize(b.size());
+	rep(i,0,sz(b)) a[i]=a[i]+b[i];
+	return a;
+}
+poly operator+(const poly& a, const poly& b) { poly r=a; r+=b; return r; }
+poly& operator-=(poly& a, const poly& b) {
+	if (sz(a) < sz(b)) a.resize(b.size());
+	rep(i,0,sz(b)) a[i]=a[i]-b[i];
+	return a;
+}
+poly operator-(const poly& a, const poly& b) { poly r=a; r-=b; return r; }
+
+poly operator*(const poly& a, const poly& b) {
+	// TODO: small-case?
+	return multiply(a, b);
+}
+// Polynomial floor division
+poly operator/(poly a, poly b) { // no leading 0's plz
+	if (sz(a) < sz(b)) return {};
+	int s = sz(a)-sz(b)+1;
+	reverse(a.begin(), a.end());
+	reverse(b.begin(), b.end());
+	a.resize(s);
+	b.resize(s);
+	a = a * inverse(move(b));
+	a.resize(s);
+	reverse(a.begin(), a.end());
+	return a;
+}
+poly& operator%=(poly& a, const poly& b) {
+	if (sz(a) >= sz(b)) {
+		poly c = (a / b) * b;
+		a.resize(sz(b)-1);
+		rep(i,0,sz(a)) a[i] = a[i]-c[i];
+	}
+	return a;
+}
+poly& operator*=(poly& a, const poly& b) {return a = a*b;}
+poly& operator/=(poly& a, const poly& b) {return a = a/b;}
+poly operator%(const poly& a, const poly& b) { poly r=a; r%=b; return r; }
+
+poly deriv(const poly& a) {
+	if (a.empty()) return {};
+	poly b(sz(a)-1);
+	rep(i,1,sz(a)) b[i-1]=a[i]*i;
+	return b;
+}
+poly integ(const poly& a) {
+	poly b(sz(a)+1);
+	// TODO: Fast inverse as you go
+	rep(i,1,sz(b)) b[i]=a[i-1]*inv(num(i));
+	return b;
+}
+poly log(const poly& a) { // a[0] == 1
+	poly b = integ(deriv(a)*inverse(a));
+	b.resize(a.size());
+	return b;
+}
+poly exp(const poly& a) { // a[0] == 0
+	poly b(1,num(1));
+	if (a.empty()) return b;
+	while (sz(b) < sz(a)) {
+		int n = min(sz(b) * 2, sz(a));
+		b.resize(n);
+		poly v = poly(a.begin(), a.begin() + n) - log(b);
+		v[0] = v[0]+num(1);
+		b *= v;
+		b.resize(n);
+	}
+	return b;
+}
