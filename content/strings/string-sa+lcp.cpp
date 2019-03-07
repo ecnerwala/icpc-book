@@ -2,8 +2,8 @@
  * Author: 
  * Description: SA + LCP
  * Usage:
-   da(str, sa, strlen(str)+1, 256);
-   calheight(str, sa, strlen(str));
+ * da(str, sa, strlen(str)+1, 256);
+ * calheight(str, sa, strlen(str));
  */
 int wa[maxn],wb[maxn],wv[maxn],ws[maxn];
 int cmp(int *r,int a,int b,int l) {
