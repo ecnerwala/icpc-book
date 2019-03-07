@@ -112,13 +112,4 @@ void build() {
 		if (l[u]) q[t++]=l[u],par[l[u]]=u;
 		if (r[u]) q[t++]=r[u],par[r[u]]=u;
 	}
-	rep(i,1,n+1) freq[i]=0;
-	ll totc=(ll)n*(n+1)/2;
-	per(i,0,t) {
-		int u=q[i],lenr=h[u];
-		if (i) sz[par[u]]+=sz[u],lenr-=h[par[u]];
-		freq[sz[u]+1]+=lenr;
-		totc-=(ll)(sz[u]+1)*lenr;
-	}
-	freq[1]=totc;
 }
