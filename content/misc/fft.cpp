@@ -24,12 +24,12 @@ inline num inv(num a) { dbl n = (a.x*a.x+a.y*a.y); return num(a.x/n,-a.y/n); }
 const int mod = 998244353, g = 3;
 struct num {
 	int v;
-	num(int v_ = 0) : v(v_) { }
+	num(ll v_ = 0) : v(int(v_ % mod)) { if (v<0) v+=mod; }
 	explicit operator int() const { return v; }
 };
-inline num operator+(num a, num b) { return num((a.v + b.v)%mod); }
-inline num operator-(num a, num b) { return num((a.v + mod - b.v)%mod); }
-inline num operator*(num a, num b) { return num(int(1ll*a.v*b.v%mod)); }
+inline num operator+(num a,num b){return num(a.v+b.v);}
+inline num operator-(num a,num b){return num(a.v+mod-b.v);}
+inline num operator*(num a,num b){return num(1ll*a.v*b.v);}
 inline num pow(num a, int b) {
 	num r = 1;
 	do{if(b&1)r=r*a;a=a*a;}while(b>>=1);
