@@ -1,6 +1,6 @@
 /**
  * Author: Andrew He
- * Description: polynomial exp/log
+ * Description: FFT/NTT, polynomial mod/log/exp
  * Source: http://neerc.ifmo.ru/trains/toulouse/2017/fft2.pdf
  * Papers about accuracy: http://www.daemonology.net/papers/fft.pdf, http://www.cs.berkeley.edu/~fateman/papers/fftvsothers.pdf
  * For integers rounding works if $(|a| + |b|)\max(a, b) < \mathtt{\sim} 10^9$, or in theory maybe $10^6$.
@@ -174,8 +174,9 @@ vi multiply_mod(const vi& a, const vi& b, int m) {
 
 } // namespace fft
 
+using fft::num;
 using poly = fft::vn;
-using fft::mutiply;
+using fft::multiply;
 using fft::inverse;
 poly& operator+=(poly& a, const poly& b) {
 	if (sz(a) < sz(b)) a.resize(b.size());
@@ -189,11 +190,17 @@ poly& operator-=(poly& a, const poly& b) {
 	return a;
 }
 poly operator-(const poly& a, const poly& b) { poly r=a; r-=b; return r; }
-
+poly& operator*=(poly& a, const num& b) { // Optional
+	trav(x, a) x = x * b;
+	return a;
+}
+poly operator*(const poly& a, const num& b) { poly r=a; r*=b; return r; }
 poly operator*(const poly& a, const poly& b) {
 	// TODO: small-case?
 	return multiply(a, b);
 }
+poly& operator*=(poly& a, const poly& b) {return a = a*b;}
+
 // Polynomial floor division
 poly operator/(poly a, poly b) { // no leading 0's plz
 	if (sz(a) < sz(b)) return {};
@@ -207,6 +214,7 @@ poly operator/(poly a, poly b) { // no leading 0's plz
 	reverse(a.begin(), a.end());
 	return a;
 }
+poly& operator/=(poly& a, const poly& b) {return a = a/b;}
 poly& operator%=(poly& a, const poly& b) {
 	if (sz(a) >= sz(b)) {
 		poly c = (a / b) * b;
@@ -215,10 +223,9 @@ poly& operator%=(poly& a, const poly& b) {
 	}
 	return a;
 }
-poly& operator*=(poly& a, const poly& b) {return a = a*b;}
-poly& operator/=(poly& a, const poly& b) {return a = a/b;}
 poly operator%(const poly& a, const poly& b) { poly r=a; r%=b; return r; }
 
+// Log/exp/pow
 poly deriv(const poly& a) {
 	if (a.empty()) return {};
 	poly b(sz(a)-1);
@@ -247,5 +254,20 @@ poly exp(const poly& a) { // a[0] == 0
 		b *= v;
 		b.resize(n);
 	}
+	return b;
+}
+poly pow(const poly& a, int m) { // m >= 0
+	poly b(a.size());
+	if (!m) { b[0] = 1; return b; }
+	int p = 0;
+	while (p<sz(a) && a[p].v==0) ++p;
+	if (1ll*m*p >= sz(a)) return b;
+	num mu = pow(a[p], m), di = inv(a[p]);
+	poly c(sz(a) - m*p);
+	rep(i,0,sz(c)) c[i] = a[i+p] * di;
+	c = log(c);
+	trav(v,c) v = v * m;
+	c = exp(c);
+	rep(i,0,sz(c)) b[i+m*p] = c[i] * mu;
 	return b;
 }
