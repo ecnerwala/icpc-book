@@ -32,7 +32,7 @@ void dft(int *a,int n,bool v){//0 <= a[i] < mo
      int y=qp(n,mo-2);
      rep(i,0,n)a[i]=1ll*a[i]*y%mo;
   }
-}
+} // 07fe031ed14912a6aaa3d7bffc20559b
 
 void init(int n){
   int ww=qp(g,(mo-1)/n);
