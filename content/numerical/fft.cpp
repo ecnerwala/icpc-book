@@ -22,6 +22,8 @@ inline num inv(num a) { dbl n = (a.x*a.x+a.y*a.y); return num(a.x/n,-a.y/n); }
 #else
 // NTT
 const int mod = 998244353, g = 3;
+// For p < 2^30 there is also (5 << 25, 3), (7 << 26, 3),
+// (479 << 21, 3) and (483 << 21, 5). Last two are > 10^9.
 struct num {
 	int v;
 	num(ll v_ = 0) : v(int(v_ % mod)) { if (v<0) v+=mod; }
@@ -174,6 +176,7 @@ vi multiply_mod(const vi& a, const vi& b, int m) {
 
 } // namespace fft
 
+// For multiply_mod, use num = modnum, poly = vector<num>
 using fft::num;
 using poly = fft::vn;
 using fft::multiply;
