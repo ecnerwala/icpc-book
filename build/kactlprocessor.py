@@ -53,7 +53,6 @@ def addref(caption, outstream):
     with open('header.tmp', 'a') as f:
         f.write(caption + "\n")
 
-
 def processwithcomments(caption, instream, outstream, listingslang = None):
     knowncommands = ['Author', 'Date', 'Description', 'Source', 'Time', 'Memory', 'License', 'Status', 'Usage']
     requiredcommands = ['Author', 'Description']
