@@ -7,6 +7,7 @@
 from __future__ import print_function
 import sys
 import getopt
+import subprocess
 
 
 def escape(input):
@@ -52,6 +53,7 @@ def addref(caption, outstream):
     with open('header.tmp', 'a') as f:
         f.write(caption + "\n")
 
+
 def processwithcomments(caption, instream, outstream, listingslang = None):
     knowncommands = ['Author', 'Date', 'Description', 'Source', 'Time', 'Memory', 'License', 'Status', 'Usage']
     requiredcommands = ['Author', 'Description']
@@ -64,10 +66,14 @@ def processwithcomments(caption, instream, outstream, listingslang = None):
     except:
         error = "Could not read source."
     nlines = list()
+    cur_hash = None
     for line in lines:
         had_comment = "///" in line
         # Remove /// comments
-        line = line.split("///")[0].rstrip()
+        if had_comment:
+            line, tail = line.split("///",1)
+            tail = tail.strip()
+        line = line.rstrip()
         # Remove '#pragma once' and 'using namespace std;' lines
         if line == "#pragma once" or line == "using namespace std;":
             continue
@@ -80,6 +86,20 @@ def processwithcomments(caption, instream, outstream, listingslang = None):
         if include is not None:
             includelist.append(include)
             continue
+
+        if had_comment and tail == "start-hash":
+            cur_hash = []
+
+        if cur_hash is not None: cur_hash.append(line)
+
+        if had_comment and tail == "end-hash":
+            script = 'hash' if listingslang else 'hash-cpp'
+            cur_hash = '\n'.join(cur_hash)
+            p = subprocess.Popen(['sh', '../content/contest/%s.sh' % script], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+            hsh, _ = p.communicate(cur_hash)
+            line += " // %s = %s" % (script, hsh.split(None,1)[0])
+            cur_hash = None
+
         nlines.append(line)
     # Remove and process /** */ comments
     source = '\n'.join(nlines)

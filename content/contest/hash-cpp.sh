@@ -1,1 +1,1 @@
-cpp -P -fpreprocessed | tr -d '[:space:]' | md5sum | cut -d ' ' -f 1
+cpp -P -fpreprocessed | tr -d '[:space:]' | md5sum
