@@ -89,8 +89,6 @@ inline void solve(char *s,int len) {
 int n;
  
 int stk[N],top,a[N],l[N],r[N],sz[N],par[N];
-ll freq[N];
-pair<ll,ll> q1[N],q2[N*4];
 
 void build() {
 	int top=0;
