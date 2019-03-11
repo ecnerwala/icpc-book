@@ -78,7 +78,7 @@ def processwithcomments(caption, instream, outstream, listingslang = None):
             continue
         if line.endswith("/** exclude-line */"):
             continue
-        if had_comment and not line:
+        if had_comment and not line and tail not in ["start-hash", "end-hash"]:
             continue
         # Check includes
         include = isinclude(line)
@@ -87,6 +87,8 @@ def processwithcomments(caption, instream, outstream, listingslang = None):
             continue
 
         if had_comment and tail == "start-hash":
+            if line: line += ' '
+            line += "// start-hash"
             cur_hash = []
 
         if cur_hash is not None: cur_hash.append(line)
@@ -96,7 +98,8 @@ def processwithcomments(caption, instream, outstream, listingslang = None):
             cur_hash = '\n'.join(cur_hash)
             p = subprocess.Popen(['sh', '../content/contest/%s.sh' % script], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
             hsh, _ = p.communicate(cur_hash)
-            line += " // %s = %s" % (script, hsh.split(None,1)[0])
+            if line: line += ' '
+            line += "// %s = %s" % (script, hsh.split(None,1)[0])
             cur_hash = None
 
         nlines.append(line)
