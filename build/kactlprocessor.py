@@ -7,6 +7,7 @@
 from __future__ import print_function
 import sys
 import getopt
+import subprocess
 
 
 def escape(input):
@@ -64,22 +65,43 @@ def processwithcomments(caption, instream, outstream, listingslang = None):
     except:
         error = "Could not read source."
     nlines = list()
+    cur_hash = None
     for line in lines:
         had_comment = "///" in line
         # Remove /// comments
-        line = line.split("///")[0].rstrip()
+        if had_comment:
+            line, tail = line.split("///",1)
+            tail = tail.strip()
+        line = line.rstrip()
         # Remove '#pragma once' and 'using namespace std;' lines
         if line == "#pragma once" or line == "using namespace std;":
             continue
         if line.endswith("/** exclude-line */"):
             continue
-        if had_comment and not line:
+        if had_comment and not line and tail not in ["start-hash", "end-hash"]:
             continue
         # Check includes
         include = isinclude(line)
         if include is not None:
             includelist.append(include)
             continue
+
+        if had_comment and tail == "start-hash":
+            if line: line += ' '
+            line += "// start-hash"
+            cur_hash = []
+
+        if cur_hash is not None: cur_hash.append(line)
+
+        if had_comment and tail == "end-hash":
+            script = 'hash' if listingslang else 'hash-cpp'
+            cur_hash = '\n'.join(cur_hash)
+            p = subprocess.Popen(['sh', '../content/contest/%s.sh' % script], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+            hsh, _ = p.communicate(cur_hash)
+            if line: line += ' '
+            line += "// %s = %s" % (script, hsh.split(None,1)[0])
+            cur_hash = None
+
         nlines.append(line)
     # Remove and process /** */ comments
     source = '\n'.join(nlines)

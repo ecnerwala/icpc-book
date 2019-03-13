@@ -60,7 +60,7 @@ inline void init(int n) {
 	}
 }
 
-inline void fft(vector<num> &a, int n) {
+inline void fft(vector<num> &a, int n) { /// start-hash
 	init(n);
 	int s = __builtin_ctz(sz(rev)/n);
 	rep(i,0,n) if (i < rev[i]>>s) swap(a[i], a[rev[i]>>s]);
@@ -70,7 +70,7 @@ inline void fft(vector<num> &a, int n) {
 			a[i+j+k] = a[i+j] - t;
 			a[i+j] = a[i+j] + t;
 		}
-}
+} /// end-hash
 
 // Complex/NTT
 vn multiply(vn a, vn b) {
@@ -134,7 +134,7 @@ vd multiply(const vd& a, const vd& b) {
 	return r;
 }
 
-// Integer multiply mod m (num = complex)
+// Integer multiply mod m (num = complex) /// start-hash
 vi multiply_mod(const vi& a, const vi& b, int m) {
 	int s = sz(a) + sz(b) - 1;
 	if (s <= 0) return {};
@@ -171,7 +171,7 @@ vi multiply_mod(const vi& a, const vi& b, int m) {
 				+ (ll(fb[i].x+0.5) % m << 15)
 				+ (ll(fb[i].y+0.5) % m << 30)) % m);
 	return r;
-}
+} /// end-hash
 #endif
 
 } // namespace fft
