@@ -14,7 +14,7 @@ const int N=1000010;
 int sa[N],rk[N],ht[N];
 bool t[N<<1];
  
-bool islms(const int i,const bool *t) {
+bool islms(const int i,const bool *t) { /// start-hash
 	return i>0&&t[i]&&!t[i - 1];
 }
  
@@ -77,7 +77,7 @@ inline void getHeight(T s,int n) {
 template<class T>
 inline void init(T s,const int len,const int sigma) {
 	sais(s,sa,len,t,rk,ht,sigma);
-}
+} /// end-hash
  
 inline void solve(char *s,int len) {
 	init(s,len+1,124);

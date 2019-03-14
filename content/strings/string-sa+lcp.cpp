@@ -6,7 +6,7 @@
  * calheight(str, sa, strlen(str));
  */
 int wa[maxn],wb[maxn],wv[maxn],ws[maxn];
-int cmp(int *r,int a,int b,int l) {
+int cmp(int *r,int a,int b,int l) { /// start-hash
   return r[a]==r[b]&&r[a+l]==r[b+l];
 }
 void da(int *r,int *sa,int n,int m) {
@@ -27,12 +27,12 @@ void da(int *r,int *sa,int n,int m) {
       for(t=x,x=y,y=t,p=1,x[sa[0]]=0,i=1;i<n;i++)
         x[sa[i]]=cmp(y,sa[i-1],sa[i],j)?p-1:p++;
   }
-}
+} /// end-hash
 //height[i]: lcp(sa[i],sa[i-1])
 int rank[maxn],height[maxn];
-void calheight(int *r,int *sa,int n) {
+void calheight(int *r,int *sa,int n) { /// start-hash
   int i,j,k=0;
   for(i=1;i<=n;i++) rank[sa[i]]=i;
   for(i=0;i<n;height[rank[i++]]=k)
     for(k?k--:0,j=sa[rank[i]-1]; r[i+k]==r[j+k]; k++);
-} 
+} /// end-hash
