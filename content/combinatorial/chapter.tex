@@ -7,7 +7,9 @@
 
 	\subsection{Cycles}
 		Let $g_S(n)$ be the number of $n$-permutations whose cycle lengths all belong to the set $S$. Then
+		\small
 		$$\sum_{n=0} ^\infty g_S(n) \frac{x^n}{n!} = \exp\left(\sum_{n\in S} \frac{x^n} {n} \right)$$
+		\normalsize
 
 	\subsection{Derangements}
 		Permutations of a set such that none of the elements appear in their original position.
@@ -17,15 +19,20 @@
 
 	\subsection{Burnside's lemma}
 		Given a group $G$ of symmetries and a set $X$, the number of elements of $X$ \emph{up to symmetry} equals
+		\small
 		\[ {\frac {1}{|G|}}\sum _{{g\in G}}|X^{g}|, \]
+		\normalsize
 		where $X^{g}$ are the elements fixed by $g$ ($g.x = x$).
 
 		If $f(n)$ counts "configurations" (of some sort) of length $n$, we can ignore rotational symmetry using $G = \mathbb Z_n$ to get
+		\small
 		\[ g(n) = \frac 1 n \sum_{k=0}^{n-1}{f(\text{gcd}(n, k))} = \frac 1 n \sum_{k|n}{f(k)\phi(n/k)}. \]
+		\normalsize
 
 \section{Partitions and subsets}
 	\subsection{Partition function}
 		Number of ways of writing $n$ as a sum of positive integers, disregarding the order of the summands.
+		\small
 		\[ p(0) = 1,\ p(n) = \sum_{k \in \mathbb Z \setminus \{0\}}{(-1)^{k+1} p(n - k(3k-1) / 2)} \]
 		\[ p(n) \sim 0.145 / n \cdot \exp(2.56 \sqrt{n}) \]
 
@@ -35,6 +42,7 @@
 			$p(n)$ & 1 & 1 & 2 & 3 & 5 & 7 & 11 & 15 & 22 & 30 & 627 & $\mathtt{\sim}$2e5 & $\mathtt{\sim}$2e8 \\
 		\end{tabular}
 		\end{center}
+		\normalsize
 
 	\subsection{Binomials}
 		\kactlimport{binomialModPrime.h}
@@ -46,11 +54,15 @@
 		$B[0,\ldots] = [1, -\frac{1}{2}, \frac{1}{6}, 0, -\frac{1}{30}, 0, \frac{1}{42}, \ldots]$
 
 		Sums of powers:
+		\small
 		\[ \sum_{i=1}^n n^m = \frac{1}{m+1} \sum_{k=0}^m \binom{m+1}{k} B_k (n+1)^{m+1-k} \]
+		\normalsize
 
 		Euler-Maclaurin formula for infinite sums:
+		\small
 		\[ \sum_{i=m}^{\infty} f(i) = \int_m^\infty f(x) dx - \sum_{k=1}^\infty \frac{B_k}{k!}f^{(k-1)}(m) \]
-		\[ \approx \int_{m}^\infty f(x)dx + \frac{f(m)}{2} - \frac{f'(m)}{12} + \frac{f'''(m)}{720} \]
+		\[ \approx \int_{m}^\infty f(x)dx + \frac{f(m)}{2} - \frac{f'(m)}{12} + \frac{f'''(m)}{720} + O(f^{(5)}(m)) \]
+		\normalsize
 
 	\subsection{Stirling numbers of the first kind}
 		Number of permutations on $n$ items with $k$ cycles.
