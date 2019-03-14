@@ -17,7 +17,7 @@
 const ll mod = 1000000007; /** exclude-line */
 
 typedef vector<ll> Poly;
-ll linearRec(Poly S, Poly tr, ll k) {
+ll linearRec(Poly S, Poly tr, ll k) { /// start-hash
 	int n = sz(S);
 
 	auto combine = [&](Poly a, Poly b) {
@@ -41,4 +41,4 @@ ll linearRec(Poly S, Poly tr, ll k) {
 	ll res = 0;
 	rep(i,0,n) res = (res + pol[i + 1] * S[i]) % mod;
 	return res;
-}
+} /// end-hash

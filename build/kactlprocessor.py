@@ -65,8 +65,11 @@ def processwithcomments(caption, instream, outstream, listingslang = None):
     except:
         error = "Could not read source."
     nlines = list()
+
+    hash_script = 'hash' if listingslang else 'hash-cpp'
     cur_hash = None
     hash_num = 0
+
     for line in lines:
         had_comment = "///" in line
         # Remove /// comments
@@ -87,7 +90,6 @@ def processwithcomments(caption, instream, outstream, listingslang = None):
             includelist.append(include)
             continue
 
-        hash_script = 'hash' if listingslang else 'hash-cpp'
         if had_comment and tail == "start-hash":
             assert cur_hash is None
             cur_hash = []
@@ -102,11 +104,23 @@ def processwithcomments(caption, instream, outstream, listingslang = None):
             cur_hash = '\n'.join(cur_hash)
             p = subprocess.Popen(['sh', '../content/contest/%s.sh' % hash_script], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
             hsh, _ = p.communicate(cur_hash)
+            hsh = hsh.split(None, 1)[0]
             if line: line += ' '
-            line += "// %s-%d = %s" % (hash_script, hash_num, hsh.split(None,1)[0])
+            line += "// %s-%d = %s" % (hash_script, hash_num, hsh)
             cur_hash = None
 
         nlines.append(line)
+
+    if hash_num == 0 and hash_script == 'hash-cpp':
+        # Automatically hash the whole file if no hashes are specified
+        p = subprocess.Popen(['sh', '../content/contest/%s.sh' % hash_script], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+        hsh, _ = p.communicate('\n'.join(nlines))
+        hsh = hsh.split(None, 1)[0]
+        if len(nlines[-1]) > 5:
+            nlines.append('')
+        if nlines[-1]: nlines[-1] += ' '
+        nlines[-1] += "// %s-all = %s" % (hash_script, hsh)
+
     # Remove and process /** */ comments
     source = '\n'.join(nlines)
     nsource = ''
