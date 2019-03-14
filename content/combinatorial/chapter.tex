@@ -11,7 +11,9 @@
 
 	\subsection{Derangements}
 		Permutations of a set such that none of the elements appear in their original position.
+		\small
 		\[ \mkern-2mu D(n) = (n-1)(D(n-1)+D(n-2)) = n D(n-1)+(-1)^n = \left\lfloor\frac{n!}{e}\right\rceil \]
+		\normalsize
 
 	\subsection{Burnside's lemma}
 		Given a group $G$ of symmetries and a set $X$, the number of elements of $X$ \emph{up to symmetry} equals
@@ -88,3 +90,7 @@
 			\item ways a convex polygon with $n+2$ sides can be cut into triangles by connecting vertices with straight lines.
 			\item permutations of $[n]$ with no 3-term increasing subseq.
 		\end{itemize}
+
+\section{Other}
+	\kactlimport{nim-product.cpp}
+	\kactlimport{schreier-sims.cpp}

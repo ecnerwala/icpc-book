@@ -1,3 +1,7 @@
+/**
+ * Author:
+ * Description: Counts 3 and 4 cycles
+ */
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -62,5 +66,4 @@ void init() {
 	for (int x = 1; x <= n; x++)
 		for(int y:go[x])
 			if(pos[y]>pos[x])lk[x].push_back(y);
-	
 }
