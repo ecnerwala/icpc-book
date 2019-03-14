@@ -90,6 +90,11 @@
 		$1, 1, 2, 5, 15, 52, 203, 877, 4140, 21147, \dots$. For $p$ prime,
 		\[ B(p^m+n)\equiv mB(n)+B(n+1) \pmod{p} \]
 
+	\subsection{Labeled unrooted trees}
+		\# on $n$ vertices: $n^{n-2}$ \\
+		\# on $k$ existing trees of size $n_i$: $n_1n_2\cdots n_k n^{k-2}$ \\
+		\# with degrees $d_i$: $(n-2)! / ((d_1-1)! \cdots (d_n-1)!)$
+
 	\subsection{Catalan numbers}
 		\[ C_n=\frac{1}{n+1}\binom{2n}{n}= \binom{2n}{n}-\binom{2n}{n+1} = \frac{(2n)!}{(n+1)!n!} \]
 		\[ C_0=1,\ C_{n+1} = \frac{2(2n+1)}{n+2}C_n,\ C_{n+1}=\sum C_iC_{n-i} \]
