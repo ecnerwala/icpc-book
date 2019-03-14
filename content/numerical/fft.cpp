@@ -204,8 +204,8 @@ poly operator*(const poly& a, const poly& b) {
 }
 poly& operator*=(poly& a, const poly& b) {return a = a*b;}
 
-// Polynomial floor division
-poly operator/(poly a, poly b) { // no leading 0's plz
+// Polynomial floor division; no leading 0's plz
+poly operator/(poly a, poly b) { /// start-hash
 	if (sz(a) < sz(b)) return {};
 	int s = sz(a)-sz(b)+1;
 	reverse(a.begin(), a.end());
@@ -216,37 +216,39 @@ poly operator/(poly a, poly b) { // no leading 0's plz
 	a.resize(s);
 	reverse(a.begin(), a.end());
 	return a;
-}
+} /// end-hash
 poly& operator/=(poly& a, const poly& b) {return a = a/b;}
-poly& operator%=(poly& a, const poly& b) {
+poly& operator%=(poly& a, const poly& b) { /// start-hash
 	if (sz(a) >= sz(b)) {
 		poly c = (a / b) * b;
 		a.resize(sz(b)-1);
 		rep(i,0,sz(a)) a[i] = a[i]-c[i];
 	}
 	return a;
-}
+} /// end-hash
 poly operator%(const poly& a, const poly& b) { poly r=a; r%=b; return r; }
 
 // Log/exp/pow
-poly deriv(const poly& a) {
+poly deriv(const poly& a) { /// start-hash
 	if (a.empty()) return {};
 	poly b(sz(a)-1);
 	rep(i,1,sz(a)) b[i-1]=a[i]*i;
 	return b;
-}
-poly integ(const poly& a) {
+} /// end-hash
+poly integ(const poly& a) { /// start-hash
 	poly b(sz(a)+1);
-	// TODO: Fast inverse as you go
-	rep(i,1,sz(b)) b[i]=a[i-1]*inv(num(i));
+	b[1]=1; // mod p
+	rep(i,2,sz(b)) b[i]=b[fft::mod%i]*(-fft::mod/i); // mod p
+	rep(i,1,sz(b)) b[i]=a[i-1]*b[i]; // mod p
+	//rep(i,1,sz(b)) b[i]=a[i-1]*inv(num(i)); // else
 	return b;
-}
-poly log(const poly& a) { // a[0] == 1
+} /// end-hash
+poly log(const poly& a) { // a[0] == 1 /// start-hash
 	poly b = integ(deriv(a)*inverse(a));
 	b.resize(a.size());
 	return b;
-}
-poly exp(const poly& a) { // a[0] == 0
+} /// end-hash
+poly exp(const poly& a) { // a[0] == 0 /// start-hash
 	poly b(1,num(1));
 	if (a.empty()) return b;
 	while (sz(b) < sz(a)) {
@@ -258,8 +260,8 @@ poly exp(const poly& a) { // a[0] == 0
 		b.resize(n);
 	}
 	return b;
-}
-poly pow(const poly& a, int m) { // m >= 0
+} /// end-hash
+poly pow(const poly& a, int m) { // m >= 0 /// start-hash
 	poly b(a.size());
 	if (!m) { b[0] = 1; return b; }
 	int p = 0;
@@ -273,9 +275,10 @@ poly pow(const poly& a, int m) { // m >= 0
 	c = exp(c);
 	rep(i,0,sz(c)) b[i+m*p] = c[i] * mu;
 	return b;
-}
+} /// end-hash
 
 // Multipoint evaluation/interpolation
+/// start-hash
 vector<num> eval(const poly& a, const vector<num>& x) {
 	int n=sz(x);
 	if (!n) return {};
@@ -288,7 +291,8 @@ vector<num> eval(const poly& a, const vector<num>& x) {
 	vector<num> y(n);
 	rep(i,0,n) y[i] = down[i+n][0];
 	return y;
-}
+} /// end-hash
+/// start-hash
 poly interp(const vector<num>& x, const vector<num>& y) {
 	int n=sz(x);
 	assert(n);
@@ -300,4 +304,4 @@ poly interp(const vector<num>& x, const vector<num>& y) {
 	rep(i,0,n) down[i+n] = poly({y[i]*inv(a[i])});
 	per(i,1,n) down[i] = down[i*2] * up[i*2+1] + down[i*2+1] * up[i*2];
 	return down[1];
-}
+} /// end-hash
