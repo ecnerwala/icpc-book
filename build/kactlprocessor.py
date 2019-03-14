@@ -66,6 +66,7 @@ def processwithcomments(caption, instream, outstream, listingslang = None):
         error = "Could not read source."
     nlines = list()
     cur_hash = None
+    hash_num = 0
     for line in lines:
         had_comment = "///" in line
         # Remove /// comments
@@ -86,20 +87,23 @@ def processwithcomments(caption, instream, outstream, listingslang = None):
             includelist.append(include)
             continue
 
+        hash_script = 'hash' if listingslang else 'hash-cpp'
         if had_comment and tail == "start-hash":
-            if line: line += ' '
-            line += "// start-hash"
+            assert cur_hash is None
             cur_hash = []
+            hash_num += 1
+
+            if line: line += ' '
+            line += "// %s-%d" % (hash_script, hash_num)
 
         if cur_hash is not None: cur_hash.append(line)
 
         if had_comment and tail == "end-hash":
-            script = 'hash' if listingslang else 'hash-cpp'
             cur_hash = '\n'.join(cur_hash)
-            p = subprocess.Popen(['sh', '../content/contest/%s.sh' % script], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+            p = subprocess.Popen(['sh', '../content/contest/%s.sh' % hash_script], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
             hsh, _ = p.communicate(cur_hash)
             if line: line += ' '
-            line += "// %s = %s" % (script, hsh.split(None,1)[0])
+            line += "// %s-%d = %s" % (hash_script, hash_num, hsh.split(None,1)[0])
             cur_hash = None
 
         nlines.append(line)
