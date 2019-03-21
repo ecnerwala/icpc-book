@@ -16,11 +16,11 @@ bool t[N<<1];
  
 bool islms(const int i,const bool *t) { /// start-hash
 	return i>0&&t[i]&&!t[i - 1];
-}
+} /// end-hash
  
 template<class T>
 inline void sort(T s,int *sa,const int len,const int sz,const int sigma,
-					bool *t,int *b,int *cb,int *p) {
+					bool *t,int *b,int *cb,int *p) { /// start-hash
 	memset(b,0,sizeof(int)*sigma);
 	memset(sa,-1,sizeof(int)*len);
 	rep(i,0,len) b[(int)s[i]]++;
@@ -32,11 +32,11 @@ inline void sort(T s,int *sa,const int len,const int sz,const int sigma,
 	cb[0]=b[0];
 	rep(i,1,sigma) cb[i]=cb[i-1]+b[i];
 	per(i,0,len) if (sa[i]>0&&t[sa[i]-1]) sa[--cb[(int)s[sa[i]-1]]]=sa[i]-1;
-}
+} /// end-hash
  
 template<class T>
 inline void sais(T s,int *sa,const int len,bool *t,int *b,int *b1,
-				const int sigma) {
+				const int sigma) { /// start-hash
 	int p=-1,*cb=b+sigma;
 	t[len-1]=1;
 	per(i,0,len-1) t[i]=s[i]<s[i+1]||(s[i]==s[i+1]&&t[i+1]);
@@ -64,18 +64,18 @@ inline void sais(T s,int *sa,const int len,bool *t,int *b,int *b1,
 	else rep(i,0,sz) sa[s1[i]]=i;
 	rep(i,0,sz) b2[i]=b1[sa[i]];
 	sort(s,sa,len,sz,sigma,t,b,cb,b2);
-}
+} /// end-hash
  
 template<class T>
-inline void getHeight(T s,int n) {
+inline void getHeight(T s,int n) { /// start-hash
 	rep(i,1,n+1) rk[sa[i]]=i;
 	int j=0,k=0;
 	for (int i=0;i<n;ht[rk[i++]]=k)
 		for (k?k--:0,j=sa[rk[i]-1];s[i+k]==s[j+k];k++);
-}
+} /// end-hash
  
 template<class T>
-inline void init(T s,const int len,const int sigma) {
+inline void init(T s,const int len,const int sigma) { /// start-hash
 	sais(s,sa,len,t,rk,ht,sigma);
 } /// end-hash
  
@@ -90,7 +90,7 @@ int n;
  
 int stk[N],top,a[N],l[N],r[N],sz[N],par[N];
 
-void build() {
+void build() { /// start-hash
 	int top=0;
 	h=SuffixArray::ht+1;
 	rep(i,1,n) l[i]=r[i]=par[i]=0;
@@ -110,4 +110,4 @@ void build() {
 		if (l[u]) q[t++]=l[u],par[l[u]]=u;
 		if (r[u]) q[t++]=r[u],par[r[u]]=u;
 	}
-}
+}/// end-hash
