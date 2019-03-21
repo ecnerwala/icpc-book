@@ -12,7 +12,7 @@ int n, m;
 vector <int> go[N], lk[N];
 
 int w[N];
-int circle3(){
+int circle3(){ /// start-hash
 	int ans=0;
 	for (int i = 1; i <= n; i++)
 		w[i]=0;
@@ -27,11 +27,11 @@ int circle3(){
 		for(int y:lk[x])w[y]=0;
 	}
 	return ans;
-}
+} /// end-hash
 
 int deg[N], pos[N], id[N];
 
-int circle4(){
+int circle4(){ /// start-hash
 	for (int i = 1; i <= n; i++)
 		w[i]=0;
 	int ans=0;
@@ -43,7 +43,7 @@ int circle4(){
 		for(int y:go[x])for(int z:lk[y])w[z]=0;
 	}
 	return ans;
-}
+} /// end-hash
 
 inline bool cmp(const int &x,const int &y){
 	return deg[x]<deg[y];

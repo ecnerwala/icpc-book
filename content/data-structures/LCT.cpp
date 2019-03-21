@@ -21,7 +21,7 @@ void update(T *x) {
   // add stuff
 }
 
-void rotate(T *x, bool t) {
+void rotate(T *x, bool t) { /// start-hash
   T *y = x -> fa, *z = y -> fa;
   if (z != null)  z -> son[z -> son[1] == y] = x;
   x -> fa = z;
@@ -30,14 +30,14 @@ void rotate(T *x, bool t) {
   x -> son[!t] = y;
   y -> fa = x;
   update(y);
-}
+} /// end-hash
 
 void xiao(T *x) {
   if (x -> fa != null)  xiao(x -> fa), x -> pf = x -> fa -> pf;
   downdate(x);
 }
 
-void splay(T *x) {
+void splay(T *x) { /// start-hash
   xiao(x);
   T *y, *z;
   while (x -> fa != null) {
@@ -49,9 +49,9 @@ void splay(T *x) {
     }else rotate(x, t1);
   }
   update(x);
-}
+} /// end-hash
 
-void access(T *x) {
+void access(T *x) {/// start-hash
   splay(x);
   x -> son[1] -> pf = x;
   x -> son[1] -> fa = null;
@@ -66,9 +66,9 @@ void access(T *x) {
     splay(x);
   }
   x -> rr = true;
-}
+} /// end-hash
 
-bool Cut(T *x, T *y) {
+bool Cut(T *x, T *y) { /// start-hash
   access(x);
   access(y);
   downdate(y);
@@ -80,7 +80,7 @@ bool Cut(T *x, T *y) {
   update(x);
   update(y);
   return true;
-}
+} /// end-hash
 
 bool Connected(T *x, T *y) {
   access(x);
