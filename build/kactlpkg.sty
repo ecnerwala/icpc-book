@@ -20,6 +20,7 @@
 \usepackage[parfill]{parskip}           % For compact enumerations
 \usepackage[dvipsnames]{xcolor}
 \usepackage[normalem]{ulem}
+\usepackage[strict]{changepage}
 
 % Config commands
 \newcommand{\subtitle}[1]{
@@ -193,7 +194,10 @@
 	\begin{center}
 		\strut % Magic
 		\vspace{3cm}\\
+
+		\begin{adjustwidth}{8.7cm}{0cm}
 		\includegraphics{\@unilogo}\\
+		\end{adjustwidth}
 		{\Huge \@unilong\\}
 		{\fontsize{60}{60}\selectfont \@teamname\\}
 		\vspace{0.5cm}
