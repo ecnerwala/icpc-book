@@ -158,6 +158,9 @@
 }
 \renewcommand*{\tilde}{\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}}
 
+\definecolor{mygreen}{HTML}{007000}
+\definecolor{myblue}{HTML}{0000dd}
+
 % Configure source code listings
 \lstset{language=C++}
 \lstset{morekeywords={alignas,alignof}}
@@ -166,8 +169,10 @@
 \lstset{showstringspaces=false}
 \lstset{breaklines=true,breakindent=12pt}
 \lstset{postbreak=\raisebox{0ex}[0ex][0ex]{\color{lightgray}\ensuremath{\hookrightarrow}}}
-\lstset{basicstyle=\scriptsize\ttfamily}
+\lstset{basicstyle=\scriptsize\ttfamily\color{mygreen}}
 \lstset{commentstyle=\color{darkgray}\itshape}
+\lstset{keywordstyle=\color{myblue}}
+\lstset{identifierstyle=\color{black}}
 \lstset{literate={^}{\caret}{1}}
 \lstset{literate={~}{\tilde}{1}}
 \lstset{emptylines=*1}
