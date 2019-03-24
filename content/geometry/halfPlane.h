@@ -1,3 +1,7 @@
+/**
+ * Author: xyz
+ * Description: Halfplane intersection area
+ */
 
 #include "Point.h"
 #include "lineIntersection.h"
