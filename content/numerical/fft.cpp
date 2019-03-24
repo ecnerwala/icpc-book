@@ -10,7 +10,7 @@ namespace fft {
 #if FFT
 // FFT
 using dbl = double;
-struct num {
+struct num { /// start-hash
 	dbl x, y;
 	num(dbl x_ = 0, dbl y_ = 0) : x(x_), y(y_) { }
 };
@@ -19,12 +19,13 @@ inline num operator-(num a, num b) { return num(a.x - b.x, a.y - b.y); }
 inline num operator*(num a, num b) { return num(a.x * b.x - a.y * b.y, a.x * b.y + a.y * b.x); }
 inline num conj(num a) { return num(a.x, -a.y); }
 inline num inv(num a) { dbl n = (a.x*a.x+a.y*a.y); return num(a.x/n,-a.y/n); }
+/// end-hash
 #else
 // NTT
 const int mod = 998244353, g = 3;
 // For p < 2^30 there is also (5 << 25, 3), (7 << 26, 3),
 // (479 << 21, 3) and (483 << 21, 5). Last two are > 10^9.
-struct num {
+struct num { /// start-hash
 	int v;
 	num(ll v_ = 0) : v(int(v_ % mod)) { if (v<0) v+=mod; }
 	explicit operator int() const { return v; }
@@ -38,13 +39,14 @@ inline num pow(num a, int b) {
 	return r;
 }
 inline num inv(num a) { return pow(a, mod-2); }
+/// end-hash
 #endif
 
 using vn = vector<num>;
 vi rev({0, 1});
 vn rt(2, num(1)), fa, fb;
 
-inline void init(int n) {
+inline void init(int n) { /// start-hash
 	if (n <= sz(rt)) return;
 	rev.resize(n);
 	rep(i,0,n) rev[i] = (rev[i>>1] | ((i&1)*n)) >> 1;
@@ -58,7 +60,7 @@ inline void init(int n) {
 #endif
 		rep(i,k/2,k) rt[2*i] = rt[i], rt[2*i+1] = rt[i]*z;
 	}
-}
+} /// end-hash
 
 inline void fft(vector<num> &a, int n) { /// start-hash
 	init(n);
@@ -73,7 +75,7 @@ inline void fft(vector<num> &a, int n) { /// start-hash
 } /// end-hash
 
 // Complex/NTT
-vn multiply(vn a, vn b) {
+vn multiply(vn a, vn b) { /// start-hash
 	int s = sz(a) + sz(b) - 1;
 	if (s <= 0) return {};
 	int L = s > 1 ? 32 - __builtin_clz(s-1) : 0, n = 1 << L;
@@ -86,11 +88,11 @@ vn multiply(vn a, vn b) {
 	fft(a, n);
 	a.resize(s);
 	return a;
-}
+} /// end-hash
 
 // Complex/NTT power-series inverse
 // Doubles b as b[:n] = (2 - a[:n] * b[:n/2]) * b[:n/2]
-vn inverse(const vn& a) {
+vn inverse(const vn& a) { /// start-hash
 	if (a.empty()) return {};
 	vn b({inv(a[0])});
 	b.reserve(2*a.size());
@@ -110,12 +112,12 @@ vn inverse(const vn& a) {
 	}
 	b.resize(a.size());
 	return b;
-}
+} /// end-hash
 
 #if FFT
 // Double multiply (num = complex)
 using vd = vector<double>;
-vd multiply(const vd& a, const vd& b) {
+vd multiply(const vd& a, const vd& b) { /// start-hash
 	int s = sz(a) + sz(b) - 1;
 	if (s <= 0) return {};
 	int L = s > 1 ? 32 - __builtin_clz(s-1) : 0, n = 1 << L;
@@ -132,7 +134,7 @@ vd multiply(const vd& a, const vd& b) {
 	vd r(s);
 	rep(i,0,s) r[i] = fb[i].y / (4*n);
 	return r;
-}
+} /// end-hash
 
 // Integer multiply mod m (num = complex) /// start-hash
 vi multiply_mod(const vi& a, const vi& b, int m) {
@@ -181,6 +183,7 @@ using fft::num;
 using poly = fft::vn;
 using fft::multiply;
 using fft::inverse;
+/// start-hash
 poly& operator+=(poly& a, const poly& b) {
 	if (sz(a) < sz(b)) a.resize(b.size());
 	rep(i,0,sz(b)) a[i]=a[i]+b[i];
@@ -193,16 +196,17 @@ poly& operator-=(poly& a, const poly& b) {
 	return a;
 }
 poly operator-(const poly& a, const poly& b) { poly r=a; r-=b; return r; }
-poly& operator*=(poly& a, const num& b) { // Optional
-	trav(x, a) x = x * b;
-	return a;
-}
-poly operator*(const poly& a, const num& b) { poly r=a; r*=b; return r; }
 poly operator*(const poly& a, const poly& b) {
 	// TODO: small-case?
 	return multiply(a, b);
 }
 poly& operator*=(poly& a, const poly& b) {return a = a*b;}
+/// end-hash
+poly& operator*=(poly& a, const num& b) { // Optional
+	trav(x, a) x = x * b;
+	return a;
+}
+poly operator*(const poly& a, const num& b) { poly r=a; r*=b; return r; }
 
 // Polynomial floor division; no leading 0's plz
 poly operator/(poly a, poly b) { /// start-hash
