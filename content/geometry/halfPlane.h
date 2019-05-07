@@ -59,9 +59,9 @@ double Intersection_Area(vector <Line> b) {
 		while (q < h && b[i].out(c[q].intpo(c[q + 1])))	q++;
 		c[++h] = b[i];
 		if (q < h && abs(c[h].dir().cross(c[h - 1].dir())) < eps) {
-			if (ca[h].dir().dot(ca[h - 1].dir()) > 0) {
+			if (c[h].dir().dot(c[h - 1].dir()) > 0) {
 				h--;
-				if (b[i].out(ca[h].P1))	ca[h] = b[i];
+				if (b[i].out(c[h].P1))	c[h] = b[i];
 			}else {
 				// The area is either 0 or infinite.
 				// If you have a bounding box, then the area is definitely 0. 
