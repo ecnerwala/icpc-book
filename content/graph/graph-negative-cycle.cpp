@@ -9,8 +9,6 @@ int vis[N], pc[N];
 
 bool dfs(int k) {
   vis[k] += 1; pc[k] = true;
-  if (vis[k] > N)
-    return true;
   for (int i = 0; i < N; i++)
     if (dis[k] + b[k][i] < dis[i]) {
       dis[i] = dis[k] + b[k][i];
