@@ -37,9 +37,11 @@ class clique {
 bool clique::search(int step, int size, 
                     LL more, LL cons) {
   if (step >= n) {
-    // a new solution reached
-    this->size = size;
-    this->cons = cons;
+    if (size > this->size) {
+      // a new solution reached
+      this->size = size;
+      this->cons = cons;
+    }
     return true;
   }
   long long now = ONE << step;
