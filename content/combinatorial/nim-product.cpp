@@ -12,9 +12,9 @@ ull nimProd2(int i, int j) {
 }
 ull nimProd(ull x, ull y) {
   ull res = 0;
-  for (int i = 0; x >> i; i++)
+  for (int i = 0; (x >> i) && i < 64; i++)
     if ((x >> i) & 1)
-      for (int j = 0; y >> j; j++)
+      for (int j = 0; (y >> j) && j < 64; j++)
         if ((y >> j) & 1)
           res ^= nimProd2(i, j);
   return res;
